@@ -31,6 +31,9 @@ public class Order {
     private Long customerId;
 
     @NonNull
+    private Long productId;
+
+    @NonNull
     private String productName;
 
     @NonNull

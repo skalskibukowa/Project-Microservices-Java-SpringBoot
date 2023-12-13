@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 
 public record OrderRegistrationRequest(
         Long customerId,
+
+        Long productId,
+
+        Long orderId,
+
         String productName,
         Double orderValue,
 
