@@ -13,7 +13,9 @@ public class OrderService {
 
         // Create order
         Order order = Order.builder()
+                .orderId(request.orderId())
                 .customerId(request.customerId())
+                .productId(request.productId())
                 .productName(request.productName())
                 .orderAmount(request.orderAmount())
                 .orderValue(request.orderValue())
