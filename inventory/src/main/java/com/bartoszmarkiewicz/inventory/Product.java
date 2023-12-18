@@ -1,6 +1,7 @@
 package com.bartoszmarkiewicz.inventory;
 
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "inventory")
-public class Inventory {
+@Table(name = "product")
+public class Product {
 
     @Id
     @SequenceGenerator(
@@ -26,16 +27,24 @@ public class Inventory {
             strategy = GenerationType.SEQUENCE,
             generator = "product_id_sequence"
     )
-    private Long productId;
+    private Integer productId;
 
+    @NotNull
+    @Column(name = "product_name")
     private String productName;
 
-    private Long productQuantity;
+    @NotNull
+    @Column(name = "product_quantity")
+    private Float productQuantity;
 
+    @NotNull
+    @Column(name = "product_price")
     private Float productPrice;
 
-    private LocalDateTime productDateStatus;
+    @Column(name = "product_createdAt")
+    private LocalDateTime createdAt;
 
+    /*
     @PrePersist
     public void prePersist() {
         // This method will be called before the entity is persisted (saved to the database)
@@ -48,4 +57,5 @@ public class Inventory {
         productDateStatus = LocalDateTime.now();
     }
 
+     */
 }
