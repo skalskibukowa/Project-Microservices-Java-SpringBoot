@@ -24,7 +24,6 @@ public class Order {
             strategy = GenerationType.SEQUENCE,
             generator = "order_id_sequence"
     )
-    @NonNull
     private Long orderId;
 
     @NonNull

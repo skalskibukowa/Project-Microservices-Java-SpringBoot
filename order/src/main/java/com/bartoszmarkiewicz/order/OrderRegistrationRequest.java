@@ -17,4 +17,7 @@ public record OrderRegistrationRequest(
         String shippingAddress,
         String phoneNumber,
         OrderStatus orderStatus) {
+    public LocalDateTime orderCreatedAt(LocalDateTime now) {
+        return now;
+    }
 }

@@ -1,4 +1,4 @@
-package com.bartoszmarkiewicz.order;
+package com.bartoszmarkiewicz.fraud;
 
 
 import org.springframework.boot.SpringApplication;
@@ -7,8 +7,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class OrderApplication {
+public class FraudApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OrderApplication.class, args);
+        SpringApplication.run(FraudApplication.class, args);
     }
 }

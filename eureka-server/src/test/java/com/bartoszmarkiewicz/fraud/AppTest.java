@@ -1,4 +1,4 @@
-package org.bartoszmarkiewicz;
+package com.bartoszmarkiewicz.fraud;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
