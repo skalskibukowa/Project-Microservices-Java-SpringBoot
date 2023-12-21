@@ -1,4 +1,4 @@
-package com.bartoszmarkiewicz.inventory;
+package com.bartoszmarkiewicz.fraud;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

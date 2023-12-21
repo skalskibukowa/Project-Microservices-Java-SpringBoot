@@ -14,6 +14,7 @@
     <module>order</module>
     <module>inventory</module>
     <module>eureka-server</module>
+    <module>fraud</module>
   </modules>
 
   <properties>

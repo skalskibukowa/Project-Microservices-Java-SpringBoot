@@ -2,12 +2,17 @@ package com.bartoszmarkiewicz.order;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
+
+    private final RestTemplate restTemplate;
 
     public void registerOrder(OrderRegistrationRequest request) {
 
@@ -22,11 +27,20 @@ public class OrderService {
                 .phoneNumber(request.phoneNumber())
                 .shippingAddress(request.shippingAddress())
                 .orderStatus(request.orderStatus())
-                .orderCreatedAt(request.orderCreatedAt())
+                .orderCreatedAt(request.orderCreatedAt(LocalDateTime.now()))
                 .build();
 
         // Register order in the DB
         orderRepository.saveAndFlush(order);
+        // check if fraudster
+        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://localhost:8083/api/v1/fraud-check/{orderId}",
+                    FraudCheckResponse.class,
+                    order.getOrderId()
+                );
+
+        if (fraudCheckResponse.isFraudster()) {
+            throw new IllegalStateException("fraudster");
+        }
 
     }
 }

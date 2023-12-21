@@ -3,12 +3,12 @@ package com.bartoszmarkiewicz.order;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-public class OrderApplication
-{
-    public static void main( String[] args )
-    {
-       SpringApplication.run(OrderApplication.class, args);
+@EnableEurekaClient
+public class OrderApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderApplication.class, args);
     }
 }

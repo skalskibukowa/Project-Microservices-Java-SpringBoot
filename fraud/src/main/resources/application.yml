@@ -1,12 +1,12 @@
 server:
-  port: 8082
+  port: 8083
 spring:
   application:
-    name: inventory
+    name: fraud
   datasource:
     username: postgres
     password: admin
-    url: jdbc:postgresql://localhost:5432/inventory
+    url: jdbc:postgresql://localhost:5432/fraud
   jpa:
     hibernate:
       ddl-auto: create-drop
