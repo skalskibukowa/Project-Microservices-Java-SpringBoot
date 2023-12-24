@@ -33,7 +33,7 @@ public class OrderService {
         // Register order in the DB
         orderRepository.saveAndFlush(order);
         // check if fraudster
-        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://localhost:8083/api/v1/fraud-check/{orderId}",
+        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{orderId}", //  Declared microservice FRAUD
                     FraudCheckResponse.class,
                     order.getOrderId()
                 );
