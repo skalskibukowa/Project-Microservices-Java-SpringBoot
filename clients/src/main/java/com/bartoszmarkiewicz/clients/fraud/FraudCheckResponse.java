@@ -1,4 +1,4 @@
-package com.bartoszmarkiewicz.order;
+package com.bartoszmarkiewicz.clients.fraud;
 
 public record FraudCheckResponse(boolean isFraudster) {
 

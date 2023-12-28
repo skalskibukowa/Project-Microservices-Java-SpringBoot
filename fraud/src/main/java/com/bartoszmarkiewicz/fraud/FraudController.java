@@ -1,7 +1,6 @@
 package com.bartoszmarkiewicz.fraud;
 
-
-import com.bartoszmarkiewicz.order.FraudCheckResponse;
+import com.bartoszmarkiewicz.clients.fraud.FraudCheckResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

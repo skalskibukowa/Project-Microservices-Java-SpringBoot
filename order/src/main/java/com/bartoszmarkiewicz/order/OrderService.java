@@ -1,5 +1,7 @@
 package com.bartoszmarkiewicz.order;
 
+import com.bartoszmarkiewicz.clients.fraud.FraudCheckResponse;
+import com.bartoszmarkiewicz.clients.fraud.FraudClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,6 +15,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     private final RestTemplate restTemplate;
+
+    private final FraudClient fraudClient;
 
     public void registerOrder(OrderRegistrationRequest request) {
 
@@ -33,10 +37,14 @@ public class OrderService {
         // Register order in the DB
         orderRepository.saveAndFlush(order);
         // check if fraudster
+
+        /*
         FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{orderId}", //  Declared microservice FRAUD
                     FraudCheckResponse.class,
                     order.getOrderId()
                 );
+         */
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudulentOrder(order.getOrderId());
 
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
