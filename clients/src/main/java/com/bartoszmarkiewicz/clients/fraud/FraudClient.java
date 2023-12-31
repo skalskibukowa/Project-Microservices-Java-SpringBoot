@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient("fraud")
 public interface FraudClient {
     @GetMapping(path = "api/v1/fraud-check/{orderId}")
-    FraudCheckResponse isFraudulentOrder(@PathVariable("orderId") Long orderId);
+    FraudCheckResponse isFraudulentOrder(@PathVariable("orderId") Integer orderId);
 }
