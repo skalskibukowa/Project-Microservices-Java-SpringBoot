@@ -24,13 +24,13 @@ public class Order {
             strategy = GenerationType.SEQUENCE,
             generator = "order_id_sequence"
     )
-    private Long orderId;
+    private Integer orderId;
 
     @NonNull
-    private Long customerId;
+    private Integer customerId;
 
     @NonNull
-    private Long productId;
+    private Integer productId;
 
     @NonNull
     private String productName;

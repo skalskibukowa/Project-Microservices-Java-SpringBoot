@@ -3,11 +3,10 @@ package com.bartoszmarkiewicz.order;
 import java.time.LocalDateTime;
 
 public record OrderRegistrationRequest(
-        Long customerId,
+        Integer orderId,
+        Integer customerId,
 
-        Long productId,
-
-        Long orderId,
+        Integer productId,
 
         String productName,
         Double orderValue,

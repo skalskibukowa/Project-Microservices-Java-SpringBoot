@@ -1,7 +1,9 @@
 package com.bartoszmarkiewicz.order;
 
+import com.bartoszmarkiewicz.amqp.RabbitMQMessageProducer;
 import com.bartoszmarkiewicz.clients.fraud.FraudCheckResponse;
 import com.bartoszmarkiewicz.clients.fraud.FraudClient;
+import com.bartoszmarkiewicz.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,9 +16,9 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final RestTemplate restTemplate;
-
     private final FraudClient fraudClient;
+
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
     public void registerOrder(OrderRegistrationRequest request) {
 
@@ -49,6 +51,21 @@ public class OrderService {
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
+
+        NotificationRequest notificationRequest = new NotificationRequest(
+                order.getCustomerId(),
+                order.getOrderId(),
+                order.getProductId(),
+                String.format("Order with id %s has been processed", order.getOrderId())
+        );
+
+
+        rabbitMQMessageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+        );
+
 
     }
 }
