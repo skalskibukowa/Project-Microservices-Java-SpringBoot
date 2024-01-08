@@ -19,6 +19,7 @@
       <module>apigw</module>
       <module>amqp</module>
       <module>notification</module>
+      <module>kafka</module>
   </modules>
 
   <properties>

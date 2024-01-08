@@ -33,7 +33,7 @@ public class OrderService {
                 .phoneNumber(request.phoneNumber())
                 .shippingAddress(request.shippingAddress())
                 .orderStatus(request.orderStatus())
-                .orderCreatedAt(request.orderCreatedAt(LocalDateTime.now()))
+                .orderCreatedAt(LocalDateTime.now())
                 .build();
 
         // Register order in the DB
