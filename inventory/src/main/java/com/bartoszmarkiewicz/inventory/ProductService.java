@@ -1,11 +1,13 @@
 package com.bartoszmarkiewicz.inventory;
 
 
+import com.bartoszmarkiewicz.clients.inventory.ProductResponse;
 import com.bartoszmarkiewicz.inventory.exceptions.ProductNotFoundException;
 import com.bartoszmarkiewicz.inventory.exceptions.ProductValidationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import com.bartoszmarkiewicz.clients.inventory.ProductClient;
 
 
 import java.time.LocalDateTime;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository inventoryRepository;
+
+    private final ProductClient productClient;
 
     // Add products
 
@@ -71,6 +75,7 @@ public class ProductService {
 
     // Remove Product
     public Product removeProduct(Integer productId) {
+
         return inventoryRepository.findById(productId)
                 .map(inventory -> {
                     inventoryRepository.deleteById(productId);
@@ -79,7 +84,32 @@ public class ProductService {
                 }).orElseThrow(() -> new ProductNotFoundException(productId));
     }
 
+    public Product updateProductValue(ProductResponse productRecord) {
+        ProductResponse productResponse = productClient.productResponse(productRecord.productId());
 
+        Product inventory = Product.builder()
+                .productId(productRecord.productId())
+                .productQuantity(productRecord.productQuantity())
+                .build();
+
+
+        if (inventory.getProductQuantity() < productRecord.productQuantity()) {
+            log.info("Error");
+        }
+
+        Product existingProduct = inventoryRepository.findById(productResponse.productId())
+                .map(product -> {
+                    float updatedQuantity = product.getProductQuantity() - productRecord.productQuantity();
+                    log.info("Quantity of the product with ID {} has been updated to {}", inventory.getProductId(), updatedQuantity);
+                    product.setProductQuantity(updatedQuantity);
+                    inventoryRepository.save(inventory);
+                    return product;
+                }).orElseThrow(() -> new ProductNotFoundException(productResponse.productId()));
+
+
+        return existingProduct;
+
+    }
 }
 
 

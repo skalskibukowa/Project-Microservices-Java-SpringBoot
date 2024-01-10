@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Table(name = "orders")
 public class Order {
 
-
     @Id
     @SequenceGenerator(
             name = "order_id_sequence",

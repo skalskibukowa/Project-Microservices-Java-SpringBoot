@@ -1,6 +1,7 @@
 package com.bartoszmarkiewicz.inventory;
 
 
+import com.bartoszmarkiewicz.clients.inventory.ProductResponse;
 import com.bartoszmarkiewicz.inventory.exceptions.ProductValidationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,6 +65,14 @@ public class ProductController {
         log.info("Deleting product with ID: {}", productId);
         Product inventory = inventoryService.removeProduct(productId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(inventory);
+    }
+
+    @PutMapping(path = "{orderId}")
+    public ResponseEntity<?> updateProductQuantity(@PathVariable("orderId") Integer orderId,
+                                                    @RequestBody ProductResponse productResponse) {
+            Product inventory = inventoryService.updateProductValue(productResponse);
+            return ResponseEntity.status(HttpStatus.OK).body(inventory);
+
     }
 
 
