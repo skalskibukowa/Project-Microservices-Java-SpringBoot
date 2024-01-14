@@ -35,7 +35,7 @@ public class Product {
 
     @NotNull
     @Column(name = "product_quantity")
-    private Float productQuantity;
+    private Integer productQuantity;
 
     @NotNull
     @Column(name = "product_price")
@@ -43,6 +43,9 @@ public class Product {
 
     @Column(name = "product_createdAt")
     private LocalDateTime createdAt;
+
+    @Column(name = "product_updatedAt")
+    private LocalDateTime updatedAt;
 
     /*
     @PrePersist

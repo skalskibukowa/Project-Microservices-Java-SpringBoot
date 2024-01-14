@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 public record ProductRecord(
         Integer productId,
         String productName,
-        Float productQuantity,
+        Integer productQuantity,
         Float productPrice,
         LocalDateTime createdAt) {
 
 
-    public Float getProductQuantity() {
+    public Integer getProductQuantity() {
         return productQuantity;
     }
 
