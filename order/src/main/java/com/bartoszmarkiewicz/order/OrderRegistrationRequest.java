@@ -2,6 +2,7 @@ package com.bartoszmarkiewicz.order;
 
 import java.time.LocalDateTime;
 
+
 public record OrderRegistrationRequest(
         Integer orderId,
         Integer customerId,

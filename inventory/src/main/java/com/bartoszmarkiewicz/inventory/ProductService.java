@@ -1,15 +1,22 @@
 package com.bartoszmarkiewicz.inventory;
 
 
+import com.bartoszmarkiewicz.clients.inventory.ProductResponse;
+import com.bartoszmarkiewicz.clients.order.OrderClient;
+import com.bartoszmarkiewicz.clients.order.OrderResponse;
 import com.bartoszmarkiewicz.inventory.exceptions.ProductNotFoundException;
 import com.bartoszmarkiewicz.inventory.exceptions.ProductValidationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import com.bartoszmarkiewicz.clients.inventory.ProductClient;
 
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -18,7 +25,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ProductService {
 
+    private static final int MIN_PRODUCT_QUANTITY = 0;
+    private static final int MIN_PRODUCT_PRICE = 0;
+
     private final ProductRepository inventoryRepository;
+
+    private final OrderClient orderClient;
 
     // Add products
 
@@ -32,11 +44,11 @@ public class ProductService {
         }
 
 
-        if (inventoryProductAddRequest.getProductQuantity() < 0) {
+        if (inventoryProductAddRequest.getProductQuantity() < MIN_PRODUCT_QUANTITY) {
             throw new ProductValidationException("Product quantity cannot be negative");
         }
 
-        if (inventoryProductAddRequest.getProductPrice() < 0) {
+        if (inventoryProductAddRequest.getProductPrice() < MIN_PRODUCT_PRICE) {
             throw new ProductValidationException("Product price cannot be negative");
         }
 
@@ -69,8 +81,22 @@ public class ProductService {
         return inventoryRepository.saveAndFlush(updatedInventory);
     }
 
+    // Update Qty Product
+    public Product updateProductQuantity(Integer productId, Product product) {
+
+        Product existingProduct = getProductById(productId)
+                .orElseThrow(() -> new ProductNotFoundException(productId));
+
+        Integer newQuantity = product.getProductQuantity();
+
+        existingProduct.setProductQuantity(newQuantity);
+
+        return updateProduct(existingProduct);
+    }
+
     // Remove Product
     public Product removeProduct(Integer productId) {
+
         return inventoryRepository.findById(productId)
                 .map(inventory -> {
                     inventoryRepository.deleteById(productId);
@@ -78,8 +104,4 @@ public class ProductService {
                     return inventory;
                 }).orElseThrow(() -> new ProductNotFoundException(productId));
     }
-
-
 }
-
-

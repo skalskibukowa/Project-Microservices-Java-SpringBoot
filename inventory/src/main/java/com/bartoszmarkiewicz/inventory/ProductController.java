@@ -1,6 +1,7 @@
 package com.bartoszmarkiewicz.inventory;
 
 
+import com.bartoszmarkiewicz.clients.inventory.ProductResponse;
 import com.bartoszmarkiewicz.inventory.exceptions.ProductValidationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,10 +53,18 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<Product> updateProductQuantity(@PathVariable("productId") Integer productId,
+    public ResponseEntity<Product> updateProduct(@PathVariable("productId") Integer productId,
                                                          @RequestBody Product updatedInventory) {
         log.info("Updating product quantity for product with ID: {}", productId);
         Product inventory = inventoryService.updateProduct(updatedInventory);
+        return ResponseEntity.status(HttpStatus.OK).body(inventory);
+    }
+
+    @PutMapping("/{productId}/updateQuantity")
+    public ResponseEntity<Product> updateProductQuantity(@PathVariable("productId") Integer productId,
+                                                         @RequestBody Product product) {
+        log.info("Updating product quantity for product with ID: {}", productId);
+        Product inventory = inventoryService.updateProductQuantity(productId, product);
         return ResponseEntity.status(HttpStatus.OK).body(inventory);
     }
 
@@ -66,5 +75,14 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(inventory);
     }
 
+    /*
+    @PutMapping(path = "{/productId}")
+    public ResponseEntity<?> updateProductQuantity(@PathVariable("productId") Integer productId,
+                                                    @RequestBody ProductResponse productResponse) {
+            Product inventory = inventoryService.updateProductValue(productResponse);
+            return ResponseEntity.status(HttpStatus.OK).body(inventory);
+
+    }
+     */
 
 }
