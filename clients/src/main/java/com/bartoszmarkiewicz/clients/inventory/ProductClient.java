@@ -13,9 +13,9 @@ import java.util.Optional;
 @FeignClient("inventory")
 public interface ProductClient {
     @GetMapping("api/v1/inventories/{productId}")
-    public ResponseEntity<Optional<ProductResponse>> getProductById(@PathVariable("productId") Integer productId);
+    ResponseEntity<Optional<ProductResponse>> getProductById(@PathVariable("productId") Integer productId);
 
     @PutMapping("api/v1/inventories/{productId}/updateQuantity")
-    public void updateProductQuantity(@PathVariable("productId") Integer productId, @RequestBody Map<String, Integer> requestBody);
+    void updateProductQuantity(@PathVariable("productId") Integer productId, @RequestBody Map<String, Integer> requestBody);
 
 }
