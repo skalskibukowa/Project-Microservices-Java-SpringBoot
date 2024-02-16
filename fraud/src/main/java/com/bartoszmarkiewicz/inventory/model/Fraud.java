@@ -1,4 +1,4 @@
-package com.bartoszmarkiewicz.fraud.model;
+package com.bartoszmarkiewicz.inventory.model;
 
 
 import lombok.AllArgsConstructor;

@@ -82,7 +82,7 @@ public class OrderControllerTests {
    }
 
    @Test
-   public void OrderController_CreateOrder_ReturnCreated_1() throws Exception {
+   public void OrderController_CreateOrder_ReturnCreatedOrder_1() throws Exception {
 
        // Given
        given(orderService.registerOrder(any(OrderRegistrationRequest.class)))

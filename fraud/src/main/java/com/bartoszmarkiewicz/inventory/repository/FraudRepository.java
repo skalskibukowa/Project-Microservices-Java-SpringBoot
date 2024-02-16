@@ -1,6 +1,6 @@
-package com.bartoszmarkiewicz.fraud.repository;
+package com.bartoszmarkiewicz.inventory.repository;
 
-import com.bartoszmarkiewicz.fraud.model.Fraud;
+import com.bartoszmarkiewicz.inventory.model.Fraud;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
