@@ -2,14 +2,15 @@ package com.bartoszmarkiewicz.inventory.service;
 
 
 import com.bartoszmarkiewicz.clients.order.OrderClient;
-import com.bartoszmarkiewicz.inventory.dto.ProductRecord;
-import com.bartoszmarkiewicz.inventory.exceptions.ProductNotFoundException;
-import com.bartoszmarkiewicz.inventory.exceptions.ProductValidationException;
-import com.bartoszmarkiewicz.inventory.model.Product;
-import com.bartoszmarkiewicz.inventory.repository.ProductRepository;
+import com.bartoszmarkiewicz.inventory.dto.InventoryRecord;
+import com.bartoszmarkiewicz.inventory.exceptions.InventoryNotFoundException;
+import com.bartoszmarkiewicz.inventory.exceptions.InventoryValidationException;
+import com.bartoszmarkiewicz.inventory.model.Inventory;
+import com.bartoszmarkiewicz.inventory.repository.InventoryRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
@@ -20,36 +21,36 @@ import java.util.Optional;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ProductService {
+public class InventoryService {
 
     private static final int MIN_PRODUCT_QUANTITY = 0;
     private static final int MIN_PRODUCT_PRICE = 0;
 
-    private final ProductRepository inventoryRepository;
+    private final InventoryRepository inventoryRepository;
 
     private final OrderClient orderClient;
 
     // Add products
 
-    public Product addProduct(ProductRecord inventoryProductAddRequest) {
+    public Inventory addProduct(InventoryRecord inventoryProductAddRequest) {
 
         boolean productExists = inventoryRepository.selectExistsProduct(inventoryProductAddRequest.productName());
 
 
         if (productExists) {
-            throw new ProductValidationException("Product " + inventoryProductAddRequest.getProductName() + " taken");
+            throw new InventoryValidationException("Product " + inventoryProductAddRequest.getProductName() + " taken");
         }
 
 
         if (inventoryProductAddRequest.getProductQuantity() < MIN_PRODUCT_QUANTITY) {
-            throw new ProductValidationException("Product quantity cannot be negative");
+            throw new InventoryValidationException("Product quantity cannot be negative");
         }
 
         if (inventoryProductAddRequest.getProductPrice() < MIN_PRODUCT_PRICE) {
-            throw new ProductValidationException("Product price cannot be negative");
+            throw new InventoryValidationException("Product price cannot be negative");
         }
 
-        Product inventory = Product.builder()
+        Inventory inventory = Inventory.builder()
                 .productId(inventoryProductAddRequest.productId())
                 .productName(inventoryProductAddRequest.productName())
                 .productPrice(inventoryProductAddRequest.productPrice())
@@ -64,41 +65,40 @@ public class ProductService {
     }
 
     // Get all products
-    public List<Product> getAllProducts() {
+    public List<Inventory> getAllProducts() {
         return inventoryRepository.findAll();
     }
 
     // Get ProductId
-    public Optional<Product> getProductById(Integer productId) {
+    public Optional<Inventory> getProductById(Integer productId) {
         return inventoryRepository.findById(productId);
     }
 
     // Update Product
-    public Product updateProduct(Product updatedInventory) {
-        return inventoryRepository.saveAndFlush(updatedInventory);
-    }
+    @Transactional
+    public Inventory updateProduct(Inventory updatedInventory) {
 
-    // Update Qty Product
-    public Product updateProductQuantity(Integer productId, Product product) {
+        Inventory existingInventory = inventoryRepository.findById(updatedInventory.getProductId())
+                .orElseThrow(() -> new InventoryValidationException("Product not found"));
 
-        Product existingProduct = getProductById(productId)
-                .orElseThrow(() -> new ProductNotFoundException(productId));
+        existingInventory.setProductName(updatedInventory.getProductName());
+        existingInventory.setProductPrice(updatedInventory.getProductPrice());
+        existingInventory.setProductQuantity(updatedInventory.getProductQuantity());
+        existingInventory.setUpdatedAt(LocalDateTime.now());
 
-        Integer newQuantity = product.getProductQuantity();
+        inventoryRepository.saveAndFlush(updatedInventory);
 
-        existingProduct.setProductQuantity(newQuantity);
-
-        return updateProduct(existingProduct);
+        return updatedInventory;
     }
 
     // Remove Product
-    public Product removeProduct(Integer productId) {
+    public Inventory removeProduct(Integer productId) {
 
         return inventoryRepository.findById(productId)
                 .map(inventory -> {
                     inventoryRepository.deleteById(productId);
                     log.info("Product with ID {} removed successfully", productId);
                     return inventory;
-                }).orElseThrow(() -> new ProductNotFoundException(productId));
+                }).orElseThrow(() -> new InventoryNotFoundException(productId));
     }
 }

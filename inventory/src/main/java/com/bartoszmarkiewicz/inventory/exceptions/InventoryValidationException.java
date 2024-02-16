@@ -1,10 +1,10 @@
 package com.bartoszmarkiewicz.inventory.exceptions;
 
-public class ProductValidationException extends RuntimeException{
+public class InventoryValidationException extends RuntimeException{
 
     private final String message;
 
-    public ProductValidationException(String message) {
+    public InventoryValidationException(String message) {
         super(message);
         this.message = message;
     }

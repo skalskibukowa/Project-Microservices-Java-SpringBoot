@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "product")
-public class Product {
+public class Inventory {
 
     @Id
     @SequenceGenerator(

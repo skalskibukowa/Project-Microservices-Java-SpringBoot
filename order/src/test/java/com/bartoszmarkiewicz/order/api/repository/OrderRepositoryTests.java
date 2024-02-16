@@ -30,7 +30,7 @@ public class OrderRepositoryTests {
 
     @Test
     public void OrderRepository_Save_ReturnSavedOrder() {
-        // Arange
+        // Arrange
         Order order = Order.builder()
                 .customerId(1)
                 .productId(1)

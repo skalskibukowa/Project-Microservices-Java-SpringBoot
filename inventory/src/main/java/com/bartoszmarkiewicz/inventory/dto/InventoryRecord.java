@@ -2,8 +2,7 @@ package com.bartoszmarkiewicz.inventory.dto;
 
 import java.time.LocalDateTime;
 
-
-public record ProductRecord(
+public record InventoryRecord(
         Integer productId,
         String productName,
         Integer productQuantity,

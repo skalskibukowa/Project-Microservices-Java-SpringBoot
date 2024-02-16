@@ -1,8 +1,8 @@
-package com.bartoszmarkiewicz.fraud.service;
+package com.bartoszmarkiewicz.inventory.service;
 
 
-import com.bartoszmarkiewicz.fraud.model.Fraud;
-import com.bartoszmarkiewicz.fraud.repository.FraudRepository;
+import com.bartoszmarkiewicz.inventory.model.Fraud;
+import com.bartoszmarkiewicz.inventory.repository.FraudRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

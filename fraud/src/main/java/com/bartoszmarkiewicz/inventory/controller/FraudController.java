@@ -1,7 +1,7 @@
-package com.bartoszmarkiewicz.fraud.controller;
+package com.bartoszmarkiewicz.inventory.controller;
 
 import com.bartoszmarkiewicz.clients.fraud.FraudCheckResponse;
-import com.bartoszmarkiewicz.fraud.service.FraudService;
+import com.bartoszmarkiewicz.inventory.service.FraudService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
